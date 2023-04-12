@@ -6,7 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "dev": "npx tsc && node dist/index.js",
-    "start": "npx nodemon --exec npx ts-node index.ts",
+    "start": "npx ts-node index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "RealJace",
