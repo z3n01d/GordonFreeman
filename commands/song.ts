@@ -5,6 +5,10 @@ import fetch from "node-fetch";
 import path from "path";
 //import fs from "fs";
 
+function sleep(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+} 
+
 export const name: string = "song";
 export const description: string = "Group of commands for song playing";
 export const options = [
@@ -82,6 +86,7 @@ async function playSong(interaction: Eris.CommandInteraction) {
 
     let voiceConnection = await client.joinVoiceChannel(interaction.member.voiceState.channelID);
     voiceConnection.stopPlaying();
+    await sleep(0.2);
     var songName = null;
     if (voiceConnection.playing) {
         return true;
