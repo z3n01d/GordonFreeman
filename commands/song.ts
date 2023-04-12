@@ -98,7 +98,6 @@ async function playSong(interaction: Eris.CommandInteraction) {
             break;
         }
     }
-    if (!voiceConnection.playing) return playSong(interaction);
     return songName;
 }
 export async function execute(interaction: Eris.CommandInteraction) {
