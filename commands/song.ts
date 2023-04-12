@@ -145,21 +145,21 @@ export async function execute(interaction: Eris.CommandInteraction) {
                 if (voiceConnection.id != interaction.guildID) continue;
                 await voiceConnection.stopPlaying();
             }
-            interaction.defer();
+            return interaction.createMessage("Sucessfully stopped currently-playing song.");
         }
         if (interaction.data.options[0].name == "pause") {
             for (let voiceConnection of client.voiceConnections.values()) {
                 if (voiceConnection.id != interaction.guildID) continue;
                 voiceConnection.pause();
             }
-            interaction.defer();
+            return interaction.createMessage("Sucessfully paused currently-playing song.");
         }
         if (interaction.data.options[0].name == "resume") {
             for (let voiceConnection of client.voiceConnections.values()) {
                 if (voiceConnection.id != interaction.guildID) continue;
                 voiceConnection.resume();
             }
-            interaction.defer();
+            return interaction.createMessage("Sucessfully resumed currently-paused song.");
         }
     } catch (err) {
         console.log(err);
