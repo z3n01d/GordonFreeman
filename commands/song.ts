@@ -1,7 +1,9 @@
 import * as Eris from "eris";
-import { client } from "..";
+import { client, octokit_client } from "..";
+import * as octokit from "octokit";
+import fetch from "node-fetch";
 import path from "path";
-import fs from "fs";
+//import fs from "fs";
 
 export const name: string = "song";
 export const description: string = "Group of commands for song playing";
@@ -64,14 +66,22 @@ export const options = [
     }
 ];
 async function playSong(interaction: Eris.CommandInteraction) {
+    const headers = {
+        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`
+    } 
+    const repoContent = await (await fetch(`https://api.github.com/repos/RealJace/GordonFreemanBotMusic/contents/${interaction.data.options[0]["options"][0].value}`,{method: "GET",headers: headers})).json();
+
+    if ("message" in repoContent) {
+        return false;
+    }
+
     let voiceConnection = await client.joinVoiceChannel(interaction.member.voiceState.channelID);
-    const files = fs.readdirSync(path.join(__dirname,"..","music",interaction.data.options[0]["options"][0].value))
-    voiceConnection.stopPlaying()
-    var songName = null
-    for (let file of files) {
-        const fileName = path.parse(file).name.replaceAll("_"," ");
+    voiceConnection.stopPlaying();
+    var songName = null;
+    for (let file of repoContent) {
+        const fileName = path.parse(file.name).name.replaceAll("_"," ");
         if (fileName.toLowerCase().includes(interaction.data.options[0]["options"][1].value.toLowerCase())) {
-            voiceConnection.play(path.join(__dirname,"..","music",interaction.data.options[0]["options"][0].value,file));
+            voiceConnection.play(`https://cdn.jsdelivr.net/gh/RealJace/GordonFreemanBotMusic@main/${interaction.data.options[0]["options"][0].value}/${file.name.replaceAll(" ","%20")}`);
             if (interaction.data.options[0]["options"][0].value == "portal2") {
                 songName = fileName.substring(13);
             } else {
@@ -81,7 +91,7 @@ async function playSong(interaction: Eris.CommandInteraction) {
         }
     }
     if (!voiceConnection.playing) return playSong(interaction);
-    return songName
+    return songName;
 }
 export async function execute(interaction: Eris.CommandInteraction) {
     if (!(interaction instanceof Eris.CommandInteraction)) return;
@@ -97,11 +107,14 @@ export async function execute(interaction: Eris.CommandInteraction) {
                     const songName = await playSong(interaction);
                     if (songName) {
                         return interaction.createMessage(`:musical_note: Playing **${songName}**`);
+                    } else if (songName == false) {
+                        return interaction.createMessage("Ratelimit exceeded.");
                     } else {
                         return interaction.createMessage(`:x: Could not find song called **${interaction.data.options[0]["options"][1].value}**`);
                     }
                 } catch (err) {
                     console.log(err)
+                    return interaction.createMessage("An error has occured.")
                 }
             }
         }

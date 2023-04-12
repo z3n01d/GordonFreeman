@@ -1,15 +1,19 @@
 import dotenv from "dotenv";
 dotenv.config();
 import * as Eris from "eris";
+import { Octokit, App } from "octokit";
 import express from "express";
 import fs from "fs";
 import path from "path";
 
 const app = express();
 const port = 3000;
-const commands = {}
+const commands = {};
 
 export const client: Eris.Client = new Eris.Client(process.env.BOT_TOKEN);
+export const octokit_client = new Octokit({
+    auth: process.env.GITHUB_TOKEN
+});
 
 async function initializeSlashCommands() {
     const commandsToEdit = [];
