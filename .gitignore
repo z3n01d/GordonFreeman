@@ -1,3 +1,6 @@
+## Other ignores
+
+## NodeJs based ignores
 # Logs
 logs
 *.log
