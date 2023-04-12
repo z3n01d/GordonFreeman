@@ -56,6 +56,11 @@ export const options = [
     },
     {
         type: Eris.Constants.ApplicationCommandOptionTypes.SUB_COMMAND,
+        name: "exit",
+        description: "Makes bot leave a voice channel it's currently in."
+    },
+    {
+        type: Eris.Constants.ApplicationCommandOptionTypes.SUB_COMMAND,
         name: "pause",
         description: "Pauses a currently playing song."
     },
@@ -78,6 +83,9 @@ async function playSong(interaction: Eris.CommandInteraction) {
     let voiceConnection = await client.joinVoiceChannel(interaction.member.voiceState.channelID);
     voiceConnection.stopPlaying();
     var songName = null;
+    if (voiceConnection.playing) {
+        return true;
+    }
     for (let file of repoContent) {
         const fileName = path.parse(file.name).name.replaceAll("_"," ");
         if (fileName.toLowerCase().includes(interaction.data.options[0]["options"][1].value.toLowerCase())) {
@@ -109,6 +117,8 @@ export async function execute(interaction: Eris.CommandInteraction) {
                         return interaction.createMessage(`:musical_note: Playing **${songName}**`);
                     } else if (songName == false) {
                         return interaction.createMessage("Ratelimit exceeded.");
+                    } else if (songName == true) {
+                        return interaction.createMessage("A song is already playing, please use stop command or wait for song to finish.");
                     } else {
                         return interaction.createMessage(`:x: Could not find song called **${interaction.data.options[0]["options"][1].value}**`);
                     }
@@ -119,12 +129,19 @@ export async function execute(interaction: Eris.CommandInteraction) {
             }
         }
 
-        if (interaction.data.options[0].name == "stop") {
+        if (interaction.data.options[0].name == "exit") {
             for (let voiceConnection of client.voiceConnections.values()) {
                 if (voiceConnection.id != interaction.guildID) continue;
                 await client.leaveVoiceChannel(voiceConnection.channelID);
             }
             return interaction.createMessage(":leftwards_arrow_with_hook: Disconnected out of voice channel.");
+        }
+        if (interaction.data.options[0].name == "stop") {
+            for (let voiceConnection of client.voiceConnections.values()) {
+                if (voiceConnection.id != interaction.guildID) continue;
+                await voiceConnection.stopPlaying();
+            }
+            interaction.defer();
         }
         if (interaction.data.options[0].name == "pause") {
             for (let voiceConnection of client.voiceConnections.values()) {
