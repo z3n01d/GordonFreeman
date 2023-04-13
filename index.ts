@@ -7,10 +7,10 @@ import path from "path";
 import sqlite3, { Database } from "sqlite3";
 import { open } from "sqlite";
 
-const database = await open({
+/*const database = await open({
     filename: "main.db",
     driver: sqlite3.Database
-});
+});*/
 
 const app = express();
 const port = 3000;
