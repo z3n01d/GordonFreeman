@@ -5,6 +5,7 @@ import { Octokit, App } from "octokit";
 import express from "express";
 import fs from "fs";
 import path from "path";
+import child_process from "child_process";
 
 const app = express();
 const port = 3000;
@@ -57,5 +58,12 @@ app.get("/",(req,res) => {
 app.listen(port,() => {
     console.log(`App listening on port ${port.toString()}`);
 })
+
+setInterval(() => {
+    child_process.exec("ping -c 3 localhost",(error) => {
+        if (error) return console.log(error.message);
+        console.log("Pinged.");
+    })
+},120000);
 
 client.connect();
