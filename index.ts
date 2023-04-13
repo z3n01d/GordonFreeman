@@ -4,11 +4,12 @@ import * as Eris from "eris";
 import express from "express";
 import fs from "fs";
 import path from "path";
+import Database from "better-sqlite3";
 
-/*const database = await open({
-    filename: "main.db",
-    driver: sqlite3.Database
-});*/
+const database = new Database("main.db");
+database.pragma("journal_mode = WAL");
+
+database.prepare("CREATE TABLE IF NOT EXISTS users(id TEXT)").run();
 
 const app = express();
 const port = 3000;
@@ -45,6 +46,10 @@ client.on("ready",() => {
 
 client.on("interactionCreate",async (interaction: Eris.Interaction) => {
     if (interaction instanceof Eris.CommandInteraction) {
+        database.prepare(`UPDATE users SET id=${interaction.user.id}`).run();
+
+        console.log(database.prepare("SELECT * FROM users").get());
+
         const command = commands[interaction.data.name];
         await interaction.defer();
         return command.execute(interaction);
