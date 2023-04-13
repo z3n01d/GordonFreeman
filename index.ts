@@ -38,6 +38,10 @@ client.on("ready",() => {
     });
 })
 
+client.on("error",(err) => {
+    console.error(err);
+})
+
 client.on("interactionCreate",async (interaction: Eris.Interaction) => {
     if (interaction instanceof Eris.CommandInteraction) {
         const command = commands[interaction.data.name];
