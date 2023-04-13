@@ -4,8 +4,6 @@ import * as Eris from "eris";
 import express from "express";
 import fs from "fs";
 import path from "path";
-import sqlite3, { Database } from "sqlite3";
-import { open } from "sqlite";
 
 /*const database = await open({
     filename: "main.db",
