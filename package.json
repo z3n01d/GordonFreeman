@@ -23,6 +23,7 @@
     "node-gyp": "^9.3.1",
     "nodemon": "^2.0.22",
     "octokit": "^2.0.14",
+    "ping-monitor": "^0.8.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   }

@@ -5,11 +5,31 @@ import { Octokit, App } from "octokit";
 import express from "express";
 import fs from "fs";
 import path from "path";
-import child_process from "child_process";
+import Monitor from "ping-monitor";
 
 const app = express();
 const port = 3000;
 const commands = {};
+
+const monitor = new Monitor({
+    address: "https://gordonfreeman.realjace.repl.co",
+    title: "Gordon Freeman",
+    interval: 2,
+    protocol: "http",
+    config: {
+        intervalUnits: 'minutes' // seconds, milliseconds, minutes {default}, hours
+    },
+    httpOptions: {
+        path: '/',
+        method: 'get',
+        query: {
+          id: 3
+        }
+    },
+    expect: {
+        statusCode: 200
+    }
+});
 
 export const client: Eris.Client = new Eris.Client(process.env.BOT_TOKEN);
 export const octokit_client = new Octokit({
@@ -59,11 +79,8 @@ app.listen(port,() => {
     console.log(`App listening on port ${port.toString()}`);
 })
 
-setInterval(() => {
-    child_process.exec("ping -c 3 localhost",(error) => {
-        if (error) return console.log(error.message);
-        console.log("Pinged.");
-    })
-},120000);
+monitor.on("up",() => {
+    console.log("Pinged!");
+})
 
 client.connect();
