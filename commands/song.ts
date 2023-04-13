@@ -1,6 +1,5 @@
 import * as Eris from "eris";
-import { client, octokit_client } from "..";
-import * as octokit from "octokit";
+import { client } from "..";
 import fetch from "node-fetch";
 import path from "path";
 //import fs from "fs";
