@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A bot for mod",
   "main": "index.ts",
+  "type": "commonjs",
   "scripts": {
     "start": "nodemon --exec \"npx ts-node-esm\" index.ts",
     "dev": "npx ts-node index.ts",

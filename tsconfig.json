@@ -3,10 +3,9 @@
     "display": "Node 16",
   
     "compilerOptions": {
-      "lib": ["es6"],
+      "lib": ["es2021"],
       "module": "CommonJS",
-      "target": "es6",
-  
+      "target": "es2021",
       "strict": false,
       "esModuleInterop": true,
       "skipLibCheck": true,
