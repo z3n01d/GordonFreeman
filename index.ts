@@ -5,7 +5,10 @@ import { Octokit, App } from "octokit";
 import express from "express";
 import fs from "fs";
 import path from "path";
-import Monitor from "ping-monitor";
+
+declare function require(name:string);
+
+const Monitor = require("ping-monitor");
 
 const app = express();
 const port = 3000;
