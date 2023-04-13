@@ -5,8 +5,8 @@
   "main": "index.ts",
   "type": "commonjs",
   "scripts": {
-    "dev": "npx tsc && node dist/index.js",
-    "start": "npx ts-node index.ts",
+    "start": "nodemon --exec \"npx ts-node\" index.ts",
+    "dev": "npx ts-node index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "RealJace",
