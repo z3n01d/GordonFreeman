@@ -62,6 +62,7 @@ client.on("error",(err) => {
 
 client.on("messageCreate",(message) => {
     if (message.author.bot) return;
+    console.log(typeof(getUserData(message.author.id)));
     if (typeof(getUserData(message.author.id)) != "undefined") {
         console.log("Setting data");
         setUserData(message.author.id,{});
