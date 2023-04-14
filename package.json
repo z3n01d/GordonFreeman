@@ -5,7 +5,7 @@
   "main": "index.ts",
   "type": "commonjs",
   "nodemonConfig": {
-    "ignore": ["userdata"]
+    "ignore": ["userdata.json"]
   },
   "scripts": {
     "start": "nodemon --exec \"npx ts-node\" index.ts",

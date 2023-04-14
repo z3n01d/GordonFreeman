@@ -85,15 +85,15 @@ async function playSong(interaction: Eris.CommandInteraction) {
 
     let voiceConnection = await client.joinVoiceChannel(interaction.member.voiceState.channelID);
     voiceConnection.stopPlaying();
-    await sleep(0.2);
+    await sleep(0.1);
     var songName = null;
-    if (voiceConnection.playing) {
-        return true;
-    }
     for (let file of repoContent) {
         const fileName = path.parse(file.name).name.replaceAll("_"," ");
         if (fileName.toLowerCase().includes(interaction.data.options[0]["options"][1].value.toLowerCase())) {
-            voiceConnection.play(`https://cdn.jsdelivr.net/gh/RealJace/GordonFreemanBotMusic@main/${interaction.data.options[0]["options"][0].value}/${file.name.replaceAll(" ","%20")}`);
+            while (!voiceConnection.playing) {
+                voiceConnection.play(`https://cdn.jsdelivr.net/gh/RealJace/GordonFreemanBotMusic@main/${interaction.data.options[0]["options"][0].value}/${file.name.replaceAll(" ","%20")}`);
+                await sleep(0.1);
+            }
             if (interaction.data.options[0]["options"][0].value == "portal2") {
                 songName = fileName.substring(13);
             } else {
