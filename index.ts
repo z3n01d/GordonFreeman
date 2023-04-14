@@ -64,8 +64,10 @@ client.on("messageCreate",(message) => {
     if (message.author.bot) return;
     console.log(getUserData(message.author.id));
     if (getUserData(message.author.id) == null) {
-        console.log("Setting data");
-        setUserData(message.author.id,{});
+        setUserData(message.author.id,{
+            inventory: [],
+            money: 0
+        });
     }
 })
 
