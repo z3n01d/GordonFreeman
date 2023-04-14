@@ -38,14 +38,11 @@ export function setUserData(userId: string,newUserData) {
 
 function setupUsersData(userId: string) {
     if (getUserData(userId) == null) {
-        console.log(`User data for ${userId} not found, creating...`);
         setUserData(userId,{
             inventory: [],
             money: 0,
             dailyTime: Date.now()
         });
-    } else {
-        console.log(`User data for ${userId} already created.`);
     }
 }
 
