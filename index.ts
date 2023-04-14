@@ -79,7 +79,6 @@ client.on("error",(err) => {
 
 client.on("messageCreate",(message) => {
     if (message.author.bot) return;
-    console.log(getUserData(message.author.id));
     setupUsersData(message.author.id);
 })
 
