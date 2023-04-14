@@ -62,9 +62,11 @@ client.on("error",(err) => {
 
 client.on("interactionCreate",async (interaction: Eris.Interaction) => {
     if (interaction instanceof Eris.CommandInteraction) {
-        setUserData(interaction.user.id,{});
         const command = commands[interaction.data.name];
         await interaction.defer();
+        if (interaction.user) {
+            setUserData(interaction.user.id,{});
+        }
         return command.execute(interaction);
     }
 })
