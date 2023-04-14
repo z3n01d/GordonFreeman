@@ -5,11 +5,29 @@ import express from "express";
 import fs from "fs";
 import path from "path";
 
+type UserData = {
+    inventory: string[];
+    money: number;
+}
+
 const app = express();
 const port = 3000;
 const commands = {};
 
 export const client: Eris.Client = new Eris.Client(process.env.BOT_TOKEN);
+
+function getUserData(userId: string): UserData | undefined {
+    const rawData = fs.readFileSync("userdata.json","utf-8");
+    const data = JSON.parse(rawData);
+    return data[userId];
+}
+
+function setUserData(userId: string,newUserData) {
+    const rawData = fs.readFileSync("userdata.json","utf-8");
+    const data = JSON.parse(rawData);
+    data[userId] = newUserData || {};
+    fs.writeFileSync("userdata.json",JSON.stringify(data));
+}
 
 async function initializeSlashCommands() {
     const commandsToEdit = [];
@@ -44,6 +62,7 @@ client.on("error",(err) => {
 
 client.on("interactionCreate",async (interaction: Eris.Interaction) => {
     if (interaction instanceof Eris.CommandInteraction) {
+        setUserData(interaction.user.id,{});
         const command = commands[interaction.data.name];
         await interaction.defer();
         return command.execute(interaction);
