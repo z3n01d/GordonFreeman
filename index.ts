@@ -29,6 +29,18 @@ function setUserData(userId: string,newUserData) {
     fs.writeFileSync("userdata.json",JSON.stringify(data));
 }
 
+function setupUsersData(userId: string) {
+    if (getUserData(userId) == null) {
+        console.log(`User data for ${userId} not found, creating...`);
+        setUserData(userId,{
+            inventory: [],
+            money: 0
+        });
+    } else {
+        console.log(`User data for ${userId} already created.`);
+    }
+}
+
 async function initializeSlashCommands() {
     const commandsToEdit = [];
     for (let file of fs.readdirSync(path.join(__dirname,"commands"))) {
@@ -63,21 +75,15 @@ client.on("error",(err) => {
 client.on("messageCreate",(message) => {
     if (message.author.bot) return;
     console.log(getUserData(message.author.id));
-    if (getUserData(message.author.id) == null) {
-        setUserData(message.author.id,{
-            inventory: [],
-            money: 0
-        });
-    }
+    setupUsersData(message.author.id);
 })
 
 client.on("interactionCreate",async (interaction: Eris.Interaction) => {
     if (interaction instanceof Eris.CommandInteraction) {
+        if (!interaction.member) return interaction.createMessage("You can only use this command in a guild!");
+        setupUsersData(interaction.member.id);
         const command = commands[interaction.data.name];
         await interaction.defer();
-        if (interaction.user) {
-            setUserData(interaction.user.id,{});
-        }
         return command.execute(interaction);
     }
 })

@@ -106,7 +106,6 @@ async function playSong(interaction: Eris.CommandInteraction) {
 }
 export async function execute(interaction: Eris.CommandInteraction) {
     if (!(interaction instanceof Eris.CommandInteraction)) return;
-    if (!interaction.member) return interaction.createMessage("You can only use this command in guilds!");
     try {
         if (interaction.data.options[0].name == "play") {
             if (!interaction.member.voiceState.channelID) return interaction.createMessage({
