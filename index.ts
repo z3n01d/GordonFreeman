@@ -8,6 +8,7 @@ import path from "path";
 type UserData = {
     inventory: string[];
     money: number;
+    dailyTime: number;
 }
 
 const app = express();
@@ -16,13 +17,19 @@ const commands = {};
 
 export const client: Eris.Client = new Eris.Client(process.env.BOT_TOKEN);
 
-function getUserData(userId: string): UserData | null {
+export function randomRange(min, max) {  
+    return Math.floor(
+      Math.random() * (max - min) + min
+    )
+}
+
+export function getUserData(userId: string): UserData | null {
     const rawData = fs.readFileSync("userdata.json","utf-8");
     const data = JSON.parse(rawData);
     return data[userId] || null;
 }
 
-function setUserData(userId: string,newUserData) {
+export function setUserData(userId: string,newUserData) {
     const rawData = fs.readFileSync("userdata.json","utf-8");
     const data = JSON.parse(rawData);
     data[userId] = newUserData || {};
@@ -34,7 +41,8 @@ function setupUsersData(userId: string) {
         console.log(`User data for ${userId} not found, creating...`);
         setUserData(userId,{
             inventory: [],
-            money: 0
+            money: 0,
+            dailyTime: Date.now()
         });
     } else {
         console.log(`User data for ${userId} already created.`);
