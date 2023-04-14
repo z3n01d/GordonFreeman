@@ -60,6 +60,13 @@ client.on("error",(err) => {
     console.error(err);
 })
 
+client.on("messageCreate",(message) => {
+    if (message.author.bot) return;
+    if (typeof(getUserData(message.author.id)) != "undefined") {
+        setUserData(message.author.id,{});
+    }
+})
+
 client.on("interactionCreate",async (interaction: Eris.Interaction) => {
     if (interaction instanceof Eris.CommandInteraction) {
         const command = commands[interaction.data.name];
