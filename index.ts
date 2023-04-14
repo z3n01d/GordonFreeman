@@ -33,7 +33,7 @@ export function setUserData(userId: string,newUserData) {
     const rawData = fs.readFileSync("userdata.json","utf-8");
     const data = JSON.parse(rawData);
     data[userId] = newUserData || {};
-    fs.writeFileSync("userdata.json",JSON.stringify(data));
+    fs.writeFileSync("userdata.json",JSON.stringify(data,null,4));
 }
 
 function setupUsersData(userId: string) {
