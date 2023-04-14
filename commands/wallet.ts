@@ -1,8 +1,8 @@
 import * as Eris from "eris";
 import { client, getUserData } from "..";
 
-export const name: string = "name";
-export const description: string = "description";
+export const name: string = "wallet";
+export const description: string = "Check how many money you have in your wallet.";
 export const options = [];
 export async function execute(interaction: Eris.CommandInteraction) {
     if (!(interaction instanceof Eris.CommandInteraction)) return;
