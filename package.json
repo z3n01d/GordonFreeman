@@ -4,11 +4,8 @@
   "description": "A bot for mod",
   "main": "index.ts",
   "type": "commonjs",
-  "nodemonConfig": {
-    "ignore": ["userdata.json"]
-  },
   "scripts": {
-    "start": "nodemon --exec \"npx ts-node\" index.ts",
+    "start": "npx nodemon --ignore \"userdata.json\" index.ts",
     "dev": "npx ts-node index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

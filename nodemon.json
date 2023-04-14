@@ -1,0 +1,6 @@
+{
+    "ignore": ["userdata.json"],
+    "execMap": {
+        "ts": "npx ts-node"
+    }
+}
