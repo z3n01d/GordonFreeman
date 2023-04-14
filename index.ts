@@ -16,10 +16,10 @@ const commands = {};
 
 export const client: Eris.Client = new Eris.Client(process.env.BOT_TOKEN);
 
-function getUserData(userId: string): UserData | undefined {
+function getUserData(userId: string): UserData | null {
     const rawData = fs.readFileSync("userdata.json","utf-8");
     const data = JSON.parse(rawData);
-    return data[userId];
+    return data[userId] || null;
 }
 
 function setUserData(userId: string,newUserData) {
@@ -62,7 +62,7 @@ client.on("error",(err) => {
 
 client.on("messageCreate",(message) => {
     if (message.author.bot) return;
-    console.log(typeof(getUserData(message.author.id)));
+    console.log(getUserData(message.author.id));
     if (typeof(getUserData(message.author.id)) != "undefined") {
         console.log("Setting data");
         setUserData(message.author.id,{});
