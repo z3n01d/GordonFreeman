@@ -60,7 +60,7 @@ export async function execute(interaction: Eris.Interaction) {
         var userData = getUserData(interaction.member.id);
         if (
             typeof(userData.searchTime) !== "undefined" &&
-            6000 - (Date.now() - userData.searchTime)
+            60000 - (Date.now() - userData.searchTime) > 0
             ) {
             return interaction.createMessage({
                 content: "Hey! Wait a minute before searching again!",
