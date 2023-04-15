@@ -100,4 +100,12 @@ app.listen(port,() => {
     console.log(`App listening on port ${port.toString()}`);
 })
 
+setInterval(() => {
+    for (let voiceConnection of client.voiceConnections.values()) {
+        if (!voiceConnection.playing) {
+            client.leaveVoiceChannel(voiceConnection.channelID);
+        }
+    }
+},60000);
+
 client.connect();
