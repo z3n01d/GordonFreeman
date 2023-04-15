@@ -115,7 +115,7 @@ export async function execute(interaction: Eris.Interaction) {
             }
             embed.description = `You have found ${randomAwardText}`;
         } else {
-            embed.description = "";
+            embed.description = pickedPlaceData.failMessage;
         }
         return interaction.editParent({
             embeds: [embed],
