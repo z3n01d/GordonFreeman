@@ -124,7 +124,6 @@ app.listen(port,() => {
 setInterval(() => {
     axios.get("https://gordonfreeman.realjace.repl.co").then(response => {
         console.log("Pinged localhost");
-        console.log(response);
     });
 },60000);
 
