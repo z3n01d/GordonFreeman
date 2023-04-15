@@ -108,7 +108,7 @@ async function playSong(interaction: Eris.CommandInteraction) {
                 await sleep(0.1);
             }
             var volume = 1.0;
-            console.log(interaction.data.options);
+            console.log(interaction.data.options["options"]);
             if (!(typeof(interaction.data.options[2]) === "undefined")) {
                 console.log(interaction.data.options[2].name);
                 // volume = Math.min(Math.max(interaction.data.options[2].name,0.1),2.0);
