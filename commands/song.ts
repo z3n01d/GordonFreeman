@@ -49,6 +49,14 @@ export const options = [
                 name: "songname",
                 description: "A song name you want me to search for.",
                 required: true,
+            },
+            {
+                type: Eris.Constants.ApplicationCommandOptionTypes.NUMBER,
+                name: "volume",
+                description: "What volume you want the song to be played in (max is 2)",
+                min_value: 0,
+                max_value: 2,
+                required: false,
             }
         ]
     },
@@ -85,7 +93,9 @@ async function playSong(interaction: Eris.CommandInteraction) {
 
     let voiceConnection = await client.joinVoiceChannel(interaction.member.voiceState.channelID);
     voiceConnection.stopPlaying();
-    await sleep(0.1);
+    await new Promise((resolve,reject) => {
+        voiceConnection.on("end",resolve);
+    });
     var songName = null;
     for (let file of repoContent) {
         const fileName = path.parse(file.name).name.replaceAll("_"," ");
@@ -94,6 +104,12 @@ async function playSong(interaction: Eris.CommandInteraction) {
                 voiceConnection.play(`https://cdn.jsdelivr.net/gh/RealJace/GordonFreemanBotMusic@main/${interaction.data.options[0]["options"][0].value}/${file.name.replaceAll(" ","%20")}`);
                 await sleep(0.1);
             }
+            var volume = 1.0;
+            if (!(typeof(interaction.data.options[2]) === "undefined")) {
+                console.log(interaction.data.options[2].name);
+                // volume = Math.min(Math.max(interaction.data.options[2].name,0.1),2.0);
+            }
+            voiceConnection.setVolume(Math.min(Math.max(volume,0.1),2.0));
             if (interaction.data.options[0]["options"][0].value == "portal2") {
                 songName = fileName.substring(13);
             } else {
