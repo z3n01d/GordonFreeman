@@ -92,12 +92,19 @@ async function playSong(interaction: Eris.CommandInteraction) {
     }
 
     let voiceConnection = await client.joinVoiceChannel(interaction.member.voiceState.channelID);
+    await new Promise((resolve,reject) => {
+        if (voiceConnection.ready) {
+            resolve(true);
+        }
+    })
     if (voiceConnection.playing) {
         voiceConnection.stopPlaying();
-        await new Promise((resolve,reject) => {
-            voiceConnection.on("end",resolve);
-        });
     }
+    await new Promise((resolve,reject) => {
+        if (!voiceConnection.playing) {
+            resolve(true);
+        }
+    });
     var songName = null;
     for (let file of repoContent) {
         const fileName = path.parse(file.name).name.replaceAll("_"," ");
