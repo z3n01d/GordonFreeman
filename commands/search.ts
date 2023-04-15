@@ -100,7 +100,7 @@ export async function execute(interaction: Eris.Interaction) {
         const pickedPlace = interaction.data.custom_id;
         const pickedPlaceData = placesAwards[pickedPlace];
         await interaction.defer();
-        if (Math.random() < pickedPlaceData.successChance) {
+        if (Math.random() < pickedPlaceData.successChance / 100) {
             return interaction.message.edit({
                 content: "Success",
                 embeds: [],
