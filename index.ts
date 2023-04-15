@@ -19,7 +19,7 @@ const fastify = Fastify({
 const port = 3000;
 const commands = {};
 
-export const client: Eris.Client = new Eris.Client(process.env.BOT_TOKEN);
+export const client: Eris.Client = new Eris.Client(`Bot ${process.env.BOT_TOKEN}`);
 
 export function randomRange(min, max) {  
     return Math.floor(
@@ -124,13 +124,6 @@ fastify.listen({ port: port }, function (err, address) {
       fastify.log.error(err);
       process.exit(1);
     }
-    console.log(`Server is now listening on ${address}`);
 })
-
-setInterval(() => {
-    axios.get("https://gordonfreeman.realjace.repl.co").then(response => {
-        console.log("Pinged localhost");
-    });
-},60000);
 
 client.connect();
