@@ -102,6 +102,16 @@ export async function execute(interaction: Eris.Interaction) {
             content: "You can't pick where they search for others!",
             flags: 64
         });
+        var userData = getUserData(interaction.member.id);
+        if (
+            typeof(userData.searchTime) !== "undefined" &&
+            60000 - (Date.now() - userData.searchTime)
+            ) {
+            return interaction.createMessage({
+                content: "Hey! Wait a minute before searching again!",
+                flags: 64
+            });
+        }
         const pickedPlace = interaction.data.custom_id;
         const pickedPlaceData = placesAwards[pickedPlace];
         var embed: Eris.EmbedOptions = {
@@ -109,18 +119,18 @@ export async function execute(interaction: Eris.Interaction) {
             color: 16755968
         }
         if (Math.random() < pickedPlaceData.successChance / 100) {
-            var userData = getUserData(interaction.member.id);
             const randomAward = pickedPlaceData.rewards[Math.floor(Math.random() * pickedPlaceData.rewards.length)];
             var randomAwardText = randomAward
             if (typeof(randomAward) === "number") {
                 userData.money += randomAward;
                 randomAwardText = `$${randomAward.toString()}`;
             }
-            setUserData(interaction.member.id,userData);
             embed.description = `You have found ${randomAwardText}`;
+            
         } else {
             embed.description = pickedPlaceData.failMessage;
         }
+        setUserData(interaction.member.id,userData);
         return interaction.editParent({
             embeds: [embed],
             components: []

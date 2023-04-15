@@ -9,6 +9,7 @@ type UserData = {
     inventory: string[];
     money: number;
     dailyTime: number;
+    searchTime: number;
 }
 
 const app = express();
