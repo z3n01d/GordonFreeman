@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import * as Eris from "eris";
-import express from "express";
+import Fastify from "fastify";
 import fs from "fs";
 import path from "path";
 import axios from "axios";
@@ -13,7 +13,9 @@ type UserData = {
     searchTime: number;
 }
 
-const app = express();
+const fastify = Fastify({
+    logger: true
+});
 const port = 3000;
 const commands = {};
 
@@ -113,12 +115,16 @@ client.on("interactionCreate",async (interaction: Eris.Interaction) => {
     }
 })
 
-app.get("/",(req,res) => {
-    res.send("Webserver running");
+fastify.get("/",(request,reply) => {
+    reply.send("Webserver running");
 })
 
-app.listen(port,() => {
-    console.log(`App listening on port ${port.toString()}`);
+fastify.listen({ port: port }, function (err, address) {
+    if (err) {
+      fastify.log.error(err);
+      process.exit(1);
+    }
+    console.log(`Server is now listening on ${address}`);
 })
 
 setInterval(() => {
