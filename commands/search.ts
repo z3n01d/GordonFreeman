@@ -1,5 +1,5 @@
 import * as Eris from "eris";
-import { randomRange } from "..";
+import { randomRange, setUserData, getUserData } from "..";
 
 const places = {
     "citadel": "Citadel",
@@ -109,11 +109,14 @@ export async function execute(interaction: Eris.Interaction) {
             color: 16755968
         }
         if (Math.random() < pickedPlaceData.successChance / 100) {
+            var userData = getUserData(interaction.member.id);
             const randomAward = pickedPlaceData.rewards[Math.floor(Math.random() * pickedPlaceData.rewards.length)];
             var randomAwardText = randomAward
             if (typeof(randomAward) === "number") {
+                userData.money += randomAward;
                 randomAwardText = `$${randomAward.toString()}`;
             }
+            setUserData(interaction.member.id,userData);
             embed.description = `You have found ${randomAwardText}`;
         } else {
             embed.description = pickedPlaceData.failMessage;
