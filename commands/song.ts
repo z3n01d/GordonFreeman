@@ -112,7 +112,7 @@ async function playSong(interaction: Eris.CommandInteraction) {
             if (!(typeof(interaction.data.options[0]["options"][2]) === "undefined")) {
                 volume = Math.min(Math.max(interaction.data.options[0]["options"][2].value,0.1),2.0);
             }
-            voiceConnection.setVolume(Math.min(Math.max(volume,0.1),2.0));
+            voiceConnection.setVolume(volume);
             if (interaction.data.options[0]["options"][0].value == "portal2") {
                 songName = fileName.substring(13);
             } else {
