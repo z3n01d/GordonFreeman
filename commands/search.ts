@@ -105,7 +105,8 @@ export async function execute(interaction: Eris.Interaction) {
         const pickedPlace = interaction.data.custom_id;
         const pickedPlaceData = placesAwards[pickedPlace];
         var embed: Eris.EmbedOptions = {
-            title: `You have searched ${places[pickedPlace]}`
+            title: `You have searched ${places[pickedPlace]}`,
+            color: 16755968
         }
         if (Math.random() < pickedPlaceData.successChance / 100) {
             const randomAward = pickedPlaceData.rewards[Math.floor(Math.random() * pickedPlaceData.rewards.length)];
