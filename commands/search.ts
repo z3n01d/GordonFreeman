@@ -15,35 +15,40 @@ const placesAwards = {
             200,
             50
         ],
-        successChance: 5
+        successChance: 5,
+        failMessage: "You've been caught by the combine soldiers."
     },
     "kleiner": {
         rewards: [
             5,
             10
         ],
-        successChance: 80
+        successChance: 80,
+        failMessage: "You found nothing but you at least found Lamarr!"
     },
     "novaprospekt": {
         rewards: [
             600,
             20
         ],
-        successChance: 10
+        successChance: 10,
+        failMessage: "You've been caught by the combine soldiers."
     },
     "train": {
         rewards: [
             1,
             5
         ],
-        successChance: 100
+        successChance: 100,
+        failMessage: "You found nothing, only some trash and cans."
     },
     "whiteforest": {
         rewards: [
             30,
             25
         ],
-        successChance: 85
+        successChance: 85,
+        failMessage: "You have found nothing and you looked like a weirdo."
     }
 }
 
@@ -99,18 +104,22 @@ export async function execute(interaction: Eris.Interaction) {
         });
         const pickedPlace = interaction.data.custom_id;
         const pickedPlaceData = placesAwards[pickedPlace];
-        if (Math.random() < pickedPlaceData.successChance / 100) {
-            return interaction.editParent({
-                content: "Success",
-                embeds: [],
-                components: []
-            });
-        } else {
-            return interaction.editParent({
-                content: "Failed",
-                embeds: [],
-                components: []
-            });
+        var embed: Eris.EmbedOptions = {
+            title: `You have searched ${places[pickedPlace]}`
         }
+        if (Math.random() < pickedPlaceData.successChance / 100) {
+            const randomAward = pickedPlaceData.rewards[Math.floor(Math.random() * pickedPlaceData.rewards.length)];
+            var randomAwardText = randomAward
+            if (typeof(randomAward) === "number") {
+                randomAwardText = `$${randomAward.toString()}`;
+            }
+            embed.description = `You have found ${randomAwardText}`;
+        } else {
+            embed.description = "";
+        }
+        return interaction.editParent({
+            embeds: [embed],
+            components: []
+        });
     }
 }
