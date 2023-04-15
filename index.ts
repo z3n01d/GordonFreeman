@@ -103,6 +103,7 @@ client.on("interactionCreate",async (interaction: Eris.Interaction) => {
         return command.execute(interaction);
     }
     if (interaction instanceof Eris.ComponentInteraction) {
+        console.log(interaction.message.interaction);
         if (
             typeof(interaction.message.interaction) === "undefined" ||
             !(interaction.message.interaction instanceof Eris.CommandInteraction)
