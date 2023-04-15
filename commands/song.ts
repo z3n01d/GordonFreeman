@@ -108,10 +108,9 @@ async function playSong(interaction: Eris.CommandInteraction) {
                 await sleep(0.1);
             }
             var volume = 1.0;
-            console.log(interaction.data.options);
-            if (!(typeof(interaction.data.options[2]) === "undefined")) {
-                console.log(interaction.data.options[2].name);
-                // volume = Math.min(Math.max(interaction.data.options[2].name,0.1),2.0);
+            console.log(interaction.data.options[0]["options"][2]);
+            if (!(typeof(interaction.data.options[0]["options"][2]) === "undefined")) {
+                volume = Math.min(Math.max(interaction.data.options[0]["options"][2].value,0.1),2.0);
             }
             voiceConnection.setVolume(Math.min(Math.max(volume,0.1),2.0));
             if (interaction.data.options[0]["options"][0].value == "portal2") {
