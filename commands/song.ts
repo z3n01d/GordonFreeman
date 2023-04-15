@@ -92,27 +92,25 @@ async function playSong(interaction: Eris.CommandInteraction) {
     }
 
     let voiceConnection = await client.joinVoiceChannel(interaction.member.voiceState.channelID);
-    voiceConnection.stopPlaying();
-    await new Promise((resolve,reject) => {
-        if (!voiceConnection.playing) {
-            resolve(true);
-        }
-        voiceConnection.on("end",resolve);
-    });
+    if (voiceConnection.playing) {
+        voiceConnection.stopPlaying();
+        await new Promise((resolve,reject) => {
+            voiceConnection.on("end",resolve);
+        });
+    }
     var songName = null;
     for (let file of repoContent) {
         const fileName = path.parse(file.name).name.replaceAll("_"," ");
         if (fileName.toLowerCase().includes(interaction.data.options[0]["options"][1].value.toLowerCase())) {
-            while (!voiceConnection.playing) {
-                voiceConnection.play(`https://cdn.jsdelivr.net/gh/RealJace/GordonFreemanBotMusic@main/${interaction.data.options[0]["options"][0].value}/${file.name.replaceAll(" ","%20")}`);
-                await sleep(0.1);
-            }
             var volume = 1.0;
-            console.log(interaction.data.options[0]["options"][2]);
             if (!(typeof(interaction.data.options[0]["options"][2]) === "undefined")) {
                 volume = Math.min(Math.max(interaction.data.options[0]["options"][2].value,0.1),2.0);
             }
             voiceConnection.setVolume(volume);
+            while (!voiceConnection.playing) {
+                voiceConnection.play(`https://cdn.jsdelivr.net/gh/RealJace/GordonFreemanBotMusic@main/${interaction.data.options[0]["options"][0].value}/${file.name.replaceAll(" ","%20")}`);
+                await sleep(0.1);
+            }
             if (interaction.data.options[0]["options"][0].value == "portal2") {
                 songName = fileName.substring(13);
             } else {
