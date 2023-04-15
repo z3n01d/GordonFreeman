@@ -35,7 +35,8 @@ export async function execute(interaction: Eris.Interaction) {
         footer: {
             text: memeData.ups.toString(),
             icon_url: "https://cdn3.emoji.gg/emojis/2180-yes.png"
-        }
+        },
+        color: 16755968
     }
 
     if (memeData.nsfw) {

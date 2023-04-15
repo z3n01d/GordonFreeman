@@ -10,7 +10,8 @@ export async function execute(interaction: Eris.Interaction) {
         embeds: [
             {
                 title: "Bot uptime",
-                description: `Gordon Freeman has been online for **${Math.round(client.uptime / 3600000)} hours, ${Math.round(client.uptime / 60000)} minutes and ${Math.round(client.uptime / 1000)} seconds**`
+                description: `Gordon Freeman has been online for **${Math.round(client.uptime / 3600000)} hours, ${Math.round(client.uptime / 60000)} minutes and ${Math.round(client.uptime / 1000)} seconds**`,
+                color: 16755968
             }
         ]
     })

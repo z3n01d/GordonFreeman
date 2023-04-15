@@ -1,4 +1,5 @@
 import * as Eris from "eris";
+import { randomRange } from "..";
 
 const places = {
     "citadel": "Citadel",
@@ -6,6 +7,44 @@ const places = {
     "novaprospekt": "Nova Prospekt",
     "train": "Train station",
     "whiteforest": "White Forest"
+}
+
+const placesAwards = {
+    "citadel": {
+        rewards: [
+            200,
+            50
+        ],
+        successChance: 5
+    },
+    "kleiner": {
+        rewards: [
+            5,
+            10
+        ],
+        successChance: 80
+    },
+    "novaprospekt": {
+        rewards: [
+            600,
+            20
+        ],
+        successChance: 10
+    },
+    "train": {
+        rewards: [
+            1,
+            5
+        ],
+        successChance: 100
+    },
+    "whiteforest": {
+        rewards: [
+            30,
+            25
+        ],
+        successChance: 85
+    }
 }
 
 export const name: string = "search";
@@ -22,7 +61,8 @@ export async function execute(interaction: Eris.Interaction) {
         return interaction.createMessage({
             embeds: [
                 {
-                    title: "Where do you want to search?"
+                    title: "Where do you want to search?",
+                    color: 16755968
                 }
             ],
             components: [
@@ -53,6 +93,20 @@ export async function execute(interaction: Eris.Interaction) {
         });
     }
     if (interaction instanceof Eris.ComponentInteraction) {
-        return interaction.createMessage("This is a response to a button");
+        if (interaction.member.id != interaction.message.interaction.member.id) return interaction.createMessage({
+            content: "You can't pick where they search for others!",
+            flags: 64
+        });
+        const pickedPlace = interaction.data.custom_id;
+        const pickedPlaceData = placesAwards[pickedPlace];
+        if (Math.random() < pickedPlaceData.successChance) {
+            return interaction.message.edit({
+                content: "Success"
+            });
+        } else {
+            return interaction.message.edit({
+                content: "Failed"
+            });
+        }
     }
 }
