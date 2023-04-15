@@ -4,7 +4,7 @@ import { client, getUserData, setUserData, randomRange } from "..";
 export const name: string = "daily";
 export const description: string = "Get your random daily dose of money!";
 export const options = [];
-export async function execute(interaction: Eris.CommandInteraction) {
+export async function execute(interaction: Eris.Interaction) {
     if (!(interaction instanceof Eris.CommandInteraction)) return;
     const userData = getUserData(interaction.member.id);
     if (86400000 - (Date.now() - userData.dailyTime) > 0) {

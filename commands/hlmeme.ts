@@ -22,7 +22,7 @@ async function getPost() {
 
     console.log(posts);
 }
-export async function execute(interaction: Eris.CommandInteraction) {
+export async function execute(interaction: Eris.Interaction) {
     if (!(interaction instanceof Eris.CommandInteraction)) return;
 
     const memeData: Meme = await (await fetch("https://meme-api.com/gimme/halflife")).json();

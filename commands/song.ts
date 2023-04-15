@@ -128,7 +128,7 @@ async function playSong(interaction: Eris.CommandInteraction) {
     }
     return songName;
 }
-export async function execute(interaction: Eris.CommandInteraction) {
+export async function execute(interaction: Eris.Interaction) {
     if (!(interaction instanceof Eris.CommandInteraction)) return;
     try {
         if (interaction.data.options[0].name == "play") {

@@ -37,12 +37,24 @@ export function setUserData(userId: string,newUserData) {
 }
 
 function setupUsersData(userId: string) {
-    if (getUserData(userId) == null) {
+    var userData = getUserData(userId);
+    if (userData == null) {
         setUserData(userId,{
             inventory: [],
             money: 0,
-            dailyTime: Date.now()
+            dailyTime: Date.now(),
         });
+    } else {
+        if (typeof(userData.inventory) === "undefined") {
+            userData.inventory = [];
+        }
+        if (typeof(userData.money) === "undefined") {
+            userData.money = 0;
+        }
+        if (typeof(userData.dailyTime) === "undefined") {
+            userData.dailyTime = Date.now();
+        }
+        setUserData(userId,userData);
     }
 }
 
@@ -88,6 +100,14 @@ client.on("interactionCreate",async (interaction: Eris.Interaction) => {
         setupUsersData(interaction.member.id);
         const command = commands[interaction.data.name];
         await interaction.defer();
+        return command.execute(interaction);
+    }
+    if (interaction instanceof Eris.ComponentInteraction) {
+        if (
+            typeof(interaction.message.interaction) === "undefined" ||
+            !(interaction.message.interaction instanceof Eris.CommandInteraction)
+        ) return;
+        const command = commands[interaction.message.interaction.data.name];
         return command.execute(interaction);
     }
 })
