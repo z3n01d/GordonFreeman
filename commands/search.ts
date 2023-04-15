@@ -99,15 +99,14 @@ export async function execute(interaction: Eris.Interaction) {
         });
         const pickedPlace = interaction.data.custom_id;
         const pickedPlaceData = placesAwards[pickedPlace];
-        await interaction.defer();
         if (Math.random() < pickedPlaceData.successChance / 100) {
-            return interaction.message.edit({
+            return interaction.editOriginalMessage({
                 content: "Success",
                 embeds: [],
                 components: []
             });
         } else {
-            return interaction.message.edit({
+            return interaction.editOriginalMessage({
                 content: "Failed",
                 embeds: [],
                 components: []
