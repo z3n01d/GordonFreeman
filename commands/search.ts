@@ -57,6 +57,17 @@ export const description: string = "Search places in City-17 and maybe you will 
 export const options = [];
 export async function execute(interaction: Eris.Interaction) {
     if (interaction instanceof Eris.CommandInteraction) {
+        var userData = getUserData(interaction.member.id);
+        if (
+            typeof(userData.searchTime) !== "undefined" &&
+            60000 - (Date.now() - userData.searchTime)
+            ) {
+            return interaction.createMessage({
+                content: "Hey! Wait a minute before searching again!",
+                flags: 64
+            });
+        }
+        userData.searchTime = Date.now();
         var placesClone = Object.keys(places);
         var place1 = placesClone[Math.floor(Math.random() * placesClone.length)];
         placesClone.splice(placesClone.indexOf(place1),1);
@@ -103,15 +114,6 @@ export async function execute(interaction: Eris.Interaction) {
             flags: 64
         });
         var userData = getUserData(interaction.member.id);
-        if (
-            typeof(userData.searchTime) !== "undefined" &&
-            60000 - (Date.now() - userData.searchTime)
-            ) {
-            return interaction.createMessage({
-                content: "Hey! Wait a minute before searching again!",
-                flags: 64
-            });
-        }
         const pickedPlace = interaction.data.custom_id;
         const pickedPlaceData = placesAwards[pickedPlace];
         var embed: Eris.EmbedOptions = {
@@ -126,7 +128,6 @@ export async function execute(interaction: Eris.Interaction) {
                 randomAwardText = `$${randomAward.toString()}`;
             }
             embed.description = `You have found ${randomAwardText}`;
-            userData.searchTime = Date.now();
         } else {
             embed.description = pickedPlaceData.failMessage;
         }
