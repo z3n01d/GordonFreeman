@@ -126,7 +126,7 @@ export async function execute(interaction: Eris.Interaction) {
                 randomAwardText = `$${randomAward.toString()}`;
             }
             embed.description = `You have found ${randomAwardText}`;
-            
+            userData.searchTime = Date.now();
         } else {
             embed.description = pickedPlaceData.failMessage;
         }
