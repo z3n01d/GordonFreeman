@@ -4,6 +4,7 @@ import * as Eris from "eris";
 import express from "express";
 import fs from "fs";
 import path from "path";
+import axios from "axios";
 
 type UserData = {
     inventory: string[];
@@ -119,5 +120,12 @@ app.get("/",(req,res) => {
 app.listen(port,() => {
     console.log(`App listening on port ${port.toString()}`);
 })
+
+setInterval(() => {
+    axios.get("localhost").then(response => {
+        console.log("Pinged localhost");
+        console.log(response);
+    });
+},60000);
 
 client.connect();
