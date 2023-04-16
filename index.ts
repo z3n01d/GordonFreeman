@@ -1,10 +1,9 @@
 import dotenv from "dotenv";
 dotenv.config();
 import * as Eris from "eris";
-import Fastify from "fastify";
+import Express from "express";
 import fs from "fs";
 import path from "path";
-import axios from "axios";
 
 type UserData = {
     inventory: string[];
@@ -13,9 +12,7 @@ type UserData = {
     searchTime: number;
 }
 
-const fastify = Fastify({
-    logger: false
-});
+const app = Express();
 const port = 3000;
 const commands = {};
 
@@ -121,16 +118,12 @@ client.on("interactionCreate",async (interaction: Eris.Interaction) => {
     }
 })
 
-fastify.get("/",(request,reply) => {
-    return "Webserver running";
+app.get("/",(req,res) => {
+    res.send("Bot is ready to serve.");
 })
 
-fastify.listen({ port: port }, function (err, address) {
-    if (err) {
-      fastify.log.error(err);
-      process.exit(1);
-    }
-    console.log(`Listening on address ${address}`);
+app.listen(port,() => {
+    console.log(`Listening on port ${port.toString()}`);
 })
 
 client.connect();
