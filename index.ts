@@ -16,7 +16,7 @@ type UserData = {
 const fastify = Fastify({
     logger: false
 });
-const port = 3000;
+const port = 8080;
 const commands = {};
 
 export const client: Eris.Client = new Eris.Client(`Bot ${process.env.BOT_TOKEN}`);
@@ -87,6 +87,12 @@ client.on("ready",() => {
         name: "Half-Life",
         type: 0
     });
+    setInterval(() => {
+        client.editStatus("online",{
+            name: "Half-Life",
+            type: 0
+        });
+    },6000);
 })
 
 client.on("error",(err) => {

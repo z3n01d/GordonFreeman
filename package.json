@@ -5,7 +5,7 @@
   "main": "index.ts",
   "type": "commonjs",
   "scripts": {
-    "start": "npx forever start -v -c \"npx ts-node\" index.ts --watchIgnore",
+    "start": "npx nodemon --config nodemon.json index.ts",
     "dev": "npx ts-node index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,10 +21,10 @@
     "eris": "^0.17.2",
     "express": "^4.18.2",
     "fastify": "^4.15.0",
-    "forever": "^4.0.3",
     "node": "^19.8.1",
     "node-fetch": "^2.6.9",
     "node-gyp": "^9.3.1",
+    "nodemon": "^2.0.22",
     "sodium-native": "^4.0.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
