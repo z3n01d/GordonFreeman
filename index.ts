@@ -28,7 +28,10 @@ const port = 3000;
 const commands = {};
 const games = ["Half-Life","Half-Life 2","Half-Life 2 Episode 1","Half-Life 2 Episode 2","Portal","Portal 2"]
 
-export const client: Eris.Client = new Eris.Client(`Bot ${process.env.BOT_TOKEN}`);
+export const client: Eris.Client = new Eris.Client(`Bot ${process.env.BOT_TOKEN}`,{
+    intents: [Eris.Constants.Intents.all],
+    restMode: true
+});
 
 export function randomRange(min, max) {  
     return Math.floor(
@@ -163,7 +166,7 @@ client.on("messageCreate",async (message) => {
 
         if (guildData != null && guildData.settings.levelChannelId != null) {
             try {
-                channel = client.getChannel(guildData.settings.levelChannelId);
+                channel = await client.getRESTChannel(guildData.settings.levelChannelId);
             } catch (error) {
                 console.log(error);
             }
