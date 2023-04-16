@@ -125,6 +125,7 @@ client.on("messageCreate",(message) => {
                 }
             });
         }
+        userData.xp = 0;
     }
     setUserData(message.author.id,userData);
 })
