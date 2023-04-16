@@ -15,6 +15,7 @@ type UserData = {
 const app = Express();
 const port = 3000;
 const commands = {};
+const games = ["Half-Life","Half-Life 2","Half-Life 2 Episode 1","Half-Life 2 Episode 2","Portal","Portal 2"]
 
 export const client: Eris.Client = new Eris.Client(`Bot ${process.env.BOT_TOKEN}`);
 
@@ -81,13 +82,13 @@ client.on("ready",() => {
     console.log("Ready");
     initializeSlashCommands();
     client.editStatus("online",{
-        name: "Half-Life",
-        type: 0
+        name: games[Math.random() * games.length],
+        type: Eris.Constants.ActivityTypes.GAME
     });
     setInterval(() => {
         client.editStatus("online",{
-            name: "Half-Life",
-            type: 0
+            name: games[Math.random() * games.length],
+            type: Eris.Constants.ActivityTypes.GAME
         });
     },6000);
 })
