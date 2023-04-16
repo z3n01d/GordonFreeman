@@ -163,7 +163,7 @@ client.on("messageCreate",async (message) => {
 
         if (guildData != null && guildData.settings.levelChannelId != null) {
             try {
-                channel = await client.getRESTChannel(guildData.settings.levelChannelId)
+                channel = await client.getChannel(guildData.settings.levelChannelId)
             } catch (error) {
                 console.log(error);
             }
