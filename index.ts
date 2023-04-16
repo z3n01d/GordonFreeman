@@ -16,7 +16,7 @@ type UserData = {
 const fastify = Fastify({
     logger: false
 });
-const port = 8080;
+const port = 3000;
 const commands = {};
 
 export const client: Eris.Client = new Eris.Client(`Bot ${process.env.BOT_TOKEN}`);
