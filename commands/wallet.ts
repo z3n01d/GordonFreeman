@@ -11,7 +11,8 @@ export async function execute(interaction: Eris.Interaction) {
         embeds: [
             {
                 title: "Wallet",
-                description: `You have got **$${userData.money.toString()}** in your wallet.`
+                description: `You have got **$${userData.money.toString()}** in your wallet.`,
+                color: 16755968
             }
         ]
     });

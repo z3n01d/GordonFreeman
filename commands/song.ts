@@ -8,6 +8,43 @@ function sleep(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 } 
 
+const gameNames = {
+    "hl": "Half-Life 1",
+    "hl2": "Half-Life 2",
+    "episodic": "Episode 1",
+    "episode2": "Episode 2",
+    "portal2": "Portal 2"
+}
+
+const gamesOption = {
+    type: Eris.Constants.ApplicationCommandOptionTypes.STRING,
+    name: "game",
+    description: "From what Half-Life/Portal game do you want the song to be?",
+    required: true,
+    choices: [
+        {
+            name: "Half-Life 1",
+            value: "hl"
+        },
+        {
+            name: "Half-Life 2",
+            value: "hl2"
+        },
+        {
+            name: "Episode 1",
+            value: "episodic"
+        },
+        {
+            name: "Episode 2",
+            value: "episode2"
+        },
+        {
+            name: "Portal 2",
+            value: "portal2"
+        }
+    ]
+}
+
 export const name: string = "song";
 export const description: string = "Group of commands for song playing";
 export const options = [
@@ -16,34 +53,7 @@ export const options = [
         name: "play",
         description: "Plays a song",
         options: [
-            {
-                type: Eris.Constants.ApplicationCommandOptionTypes.STRING,
-                name: "game",
-                description: "From what Half-Life game do you want the song to be?",
-                required: true,
-                choices: [
-                    {
-                        name: "Half-Life 1",
-                        value: "hl"
-                    },
-                    {
-                        name: "Half-Life 2",
-                        value: "hl2"
-                    },
-                    {
-                        name: "Episode 1",
-                        value: "episodic"
-                    },
-                    {
-                        name: "Episode 2",
-                        value: "episode2"
-                    },
-                    {
-                        name: "Portal 2",
-                        value: "portal2"
-                    }
-                ]
-            },
+            gamesOption,
             {
                 type: Eris.Constants.ApplicationCommandOptionTypes.STRING,
                 name: "songname",
@@ -58,6 +68,14 @@ export const options = [
                 max_value: 2,
                 required: false,
             }
+        ]
+    },
+    {
+        type: Eris.Constants.ApplicationCommandOptionTypes.SUB_COMMAND,
+        name: "list",
+        description: "Lists music from a game you want.",
+        options: [
+            gamesOption
         ]
     },
     {
@@ -159,7 +177,38 @@ export async function execute(interaction: Eris.Interaction) {
                 }
             }
         }
+        if (interaction.data.options[0].name == "list") {
+            const headers = {
+                Authorization: `Bearer ${process.env.GITHUB_TOKEN}`
+            } 
+            const repoContent = await (await fetch(`https://api.github.com/repos/RealJace/GordonFreemanBotMusic/contents/${interaction.data.options[0]["options"][0].value}`,{method: "GET",headers: headers})).json();
 
+            if ("message" in repoContent) {
+                return interaction.createMessage("Ratelimit exceeded.");
+            }
+
+            var songText = "";
+            var songNumber = 1;
+            for (let file of repoContent) {
+                const fileName = path.parse(file.name).name.replaceAll("_"," ");
+                if (interaction.data.options[0]["options"][0].value == "portal2") {
+                    songText += `**${songNumber.toString()}.** ` + fileName.substring(13) + "\n";
+                } else {
+                    songText += `**${songNumber.toString()}.** ` + fileName.substring(3) + "\n";
+                }
+                songNumber += 1;
+            }
+
+            return interaction.createMessage({
+                embeds: [
+                    {
+                        title: `${gameNames[interaction.data.options[0]["options"][0].value]} soundtrack list : `,
+                        description: songText,
+                        color: 16755968
+                    }
+                ]
+            })
+        }
         if (interaction.data.options[0].name == "exit") {
             for (let voiceConnection of client.voiceConnections.values()) {
                 if (voiceConnection.id != interaction.guildID) continue;
