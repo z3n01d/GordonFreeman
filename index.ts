@@ -87,7 +87,7 @@ client.on("ready",() => {
     });
     setInterval(() => {
         client.editStatus("online",{
-            name: games[Math.random() * games.length],
+            name: games[Math.floor(Math.random() * games.length)],
             type: Eris.Constants.ActivityTypes.GAME
         });
     },6000);
