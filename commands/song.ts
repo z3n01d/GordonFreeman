@@ -91,7 +91,12 @@ async function playSong(interaction: Eris.CommandInteraction) {
         return false;
     }
 
-    let voiceConnection = await client.joinVoiceChannel(interaction.member.voiceState.channelID);
+    let voiceConnection = client.voiceConnections.get(interaction.member.voiceState.channelID);
+
+    if (typeof(voiceConnection) === "undefined") {
+        voiceConnection = await client.joinVoiceChannel(interaction.member.voiceState.channelID);
+    }
+
     await new Promise((resolve,reject) => {
         if (voiceConnection.ready) {
             resolve(true);
