@@ -10,6 +10,8 @@ type UserData = {
     money: number;
     dailyTime: number;
     searchTime: number;
+    level: number;
+    xp: number;
 }
 
 const app = Express();
@@ -45,6 +47,8 @@ function setupUsersData(userId: string) {
             inventory: [],
             money: 0,
             dailyTime: Date.now(),
+            level: 1,
+            xp: 0
         });
     } else {
         if (typeof(userData.inventory) === "undefined") {
@@ -55,6 +59,12 @@ function setupUsersData(userId: string) {
         }
         if (typeof(userData.dailyTime) === "undefined") {
             userData.dailyTime = Date.now();
+        }
+        if (typeof(userData.level) === "undefined") {
+            userData.level = 1;
+        }
+        if (typeof(userData.xp) === "undefined") {
+            userData.xp = 0;
         }
         setUserData(userId,userData);
     }
@@ -100,6 +110,23 @@ client.on("error",(err) => {
 client.on("messageCreate",(message) => {
     if (message.author.bot) return;
     setupUsersData(message.author.id);
+    var userData = getUserData(message.author.id);
+    userData.xp += 1;
+    if (userData.xp >= userData.level * 10) {
+        userData.level += 1;
+        if (message.channel instanceof Eris.TextChannel) {
+            message.channel.createMessage({
+                content: `${message.author.mention} has reached **level ${userData.level.toString()}**!`,
+                messageReference: {
+                    channelID: message.channel.id,
+                    failIfNotExists: false,
+                    guildID: message.guildID,
+                    messageID: message.id
+                }
+            });
+        }
+    }
+    setUserData(message.author.id,userData);
 })
 
 client.on("interactionCreate",async (interaction: Eris.Interaction) => {
