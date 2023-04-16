@@ -14,7 +14,7 @@ type UserData = {
 }
 
 const fastify = Fastify({
-    logger: true
+    logger: false
 });
 const port = 3000;
 const commands = {};
@@ -124,6 +124,7 @@ fastify.listen({ port: port }, function (err, address) {
       fastify.log.error(err);
       process.exit(1);
     }
+    console.log(`Listening on address ${address}`);
 })
 
 client.connect();
