@@ -163,13 +163,13 @@ client.on("messageCreate",async (message) => {
 
         if (guildData != null && guildData.settings.levelChannelId != null) {
             try {
-                channel = await client.getChannel(guildData.settings.levelChannelId)
+                channel = client.getChannel(guildData.settings.levelChannelId);
             } catch (error) {
                 console.log(error);
             }
         }
 
-        if (channel && channel instanceof Eris.TextChannel) {
+        if (channel != null && channel instanceof Eris.TextChannel) {
             channel.createMessage(messageData);
         } else {
             if (message.channel instanceof Eris.TextChannel) {
