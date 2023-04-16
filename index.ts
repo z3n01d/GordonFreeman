@@ -122,7 +122,7 @@ client.on("interactionCreate",async (interaction: Eris.Interaction) => {
 })
 
 fastify.get("/",(request,reply) => {
-    reply.send("Webserver running");
+    return "Webserver running";
 })
 
 fastify.listen({ port: port }, function (err, address) {
