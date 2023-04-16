@@ -25,7 +25,7 @@ export const options = [
                 type: Eris.Constants.ApplicationCommandOptionTypes.STRING,
                 name: "newvalue",
                 description: "New value of a setting",
-                required: false,
+                required: true,
             }
         ]
     },
