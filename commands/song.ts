@@ -10,9 +10,11 @@ function sleep(time) {
 
 const gameNames = {
     "hl": "Half-Life 1",
+    "opposingforce": "Opposing force",
     "hl2": "Half-Life 2",
     "episodic": "Episode 1",
     "episode2": "Episode 2",
+    "portal": "Portal",
     "portal2": "Portal 2"
 }
 
