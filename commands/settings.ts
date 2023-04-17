@@ -48,6 +48,7 @@ export async function execute(interaction: Eris.Interaction) {
             if (guildData != null) {
                 guildData.settings[setting] = newValue;
             }
+            setGuildData(interaction.guildID,guildData);
         } catch (error) {
             console.log(error);
             return interaction.createMessage(`Failed to update setting ${setting} to ${newValue}`);
