@@ -27,6 +27,10 @@ const gamesOption = {
             value: "hl"
         },
         {
+            name: "Opposing force",
+            value: "opposingforce"
+        },
+        {
             name: "Half-Life 2",
             value: "hl2"
         },
@@ -37,6 +41,10 @@ const gamesOption = {
         {
             name: "Episode 2",
             value: "episode2"
+        },
+        {
+            name: "Portal",
+            value: "portal"
         },
         {
             name: "Portal 2",
