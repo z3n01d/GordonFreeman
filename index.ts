@@ -1,4 +1,3 @@
-import { Channel } from "diagnostics_channel";
 import dotenv from "dotenv";
 dotenv.config();
 import * as Eris from "eris";

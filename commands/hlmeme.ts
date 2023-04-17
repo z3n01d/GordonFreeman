@@ -40,7 +40,7 @@ export async function execute(interaction: Eris.Interaction) {
     }
 
     if (memeData.nsfw) {
-        embed.image = null
+        embed.image = null;
     }
 
     return interaction.createMessage({embeds:[embed]});
