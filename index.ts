@@ -162,22 +162,22 @@ client.on("messageCreate",async (message) => {
             content: `${message.author.mention} has reached **level ${userData.level.toString()}**!`,
         }
         const guildData = getGuildData(message.guildID);
-        var channel = null;
-
-        if (guildData != null && guildData.settings.levelChannelId != null) {
-            try {
-                channel = await client.getRESTChannel(guildData.settings.levelChannelId);
-            } catch (error) {
-                console.log(error);
+        var channel = await new Promise(async (resolve,reject) => {
+            if (guildData != null && guildData.settings.levelChannelId != null) {
+                try {
+                    let newChannel = await client.getRESTChannel(guildData.settings.levelChannelId);
+                    resolve(newChannel);
+                } catch (error) {
+                    console.log(error);
+                    resolve(message.channel);
+                }
+            } else {
+                resolve(message.channel);
             }
-        }
+        });
 
-        if (channel != null && channel instanceof Eris.TextChannel) {
+        if (channel instanceof Eris.TextChannel) {
             channel.createMessage(messageData);
-        } else {
-            if (message.channel instanceof Eris.TextChannel) {
-                message.channel.createMessage(messageData);
-            }
         }
         userData.xp = 0;
     }
