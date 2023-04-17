@@ -1,3 +1,12 @@
+@font-face {
+    font-family: "HalfLife";
+    src: url("https://github.com/RealJace/Fonts/blob/main/k12hl2-webfont.woff?raw=true") format("woff");
+}
+
+* {
+    font-family: "HalfLife";
+}
+
 .entity-content__description {
     background: #F37B21;
 }
