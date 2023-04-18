@@ -4,6 +4,7 @@ import * as Eris from "eris";
 import Express from "express";
 import fs from "fs";
 import path from "path";
+import { AutoPoster } from "topgg-autoposter";
 
 type UserData = {
     inventory: string[];
@@ -31,6 +32,8 @@ export const client: Eris.Client = new Eris.Client(`Bot ${process.env.BOT_TOKEN}
     intents: [Eris.Constants.Intents.all],
     restMode: true
 });
+
+const poster = AutoPoster(process.env.TOPGG_TOKEN,client);
 
 export function randomRange(min, max) {  
     return Math.floor(
@@ -199,6 +202,10 @@ client.on("interactionCreate",async (interaction: Eris.Interaction) => {
         const command = commands[interaction.message.interaction.name];
         return command.execute(interaction);
     }
+})
+
+poster.on("posted",(stats) => {
+    console.log(`Posted stats to Top.gg | ${stats.serverCount} servers`);
 })
 
 app.get("/",(req,res) => {
