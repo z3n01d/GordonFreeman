@@ -1,5 +1,6 @@
 {
-    "ignore": ["userdata.json"],
+    "verbose": true,
+    "ignore": ["userdata.json","guilddata.json"],
     "execMap": {
         "ts": "npx ts-node"
     }
