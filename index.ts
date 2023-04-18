@@ -192,8 +192,12 @@ client.on("interactionCreate",async (interaction: Eris.Interaction) => {
         setupGuildsData(interaction.guildID);
         setupUsersData(interaction.member.id);
         const command = commands[interaction.data.name];
-        await interaction.defer();
-        return command.execute(interaction);
+        await interaction.acknowledge();
+        try {
+            return command.execute(interaction);
+        } catch (error) {
+            console.log(error);
+        }
     }
     if (interaction instanceof Eris.ComponentInteraction) {
         if (
