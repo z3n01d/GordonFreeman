@@ -4,7 +4,6 @@ import * as Eris from "eris";
 import Express from "express";
 import fs from "fs";
 import path from "path";
-import * as dbots from "dbots";
 
 type UserData = {
     inventory: string[];
@@ -134,17 +133,6 @@ async function initializeSlashCommands() {
 client.on("ready",() => {
     console.log("Ready");
     initializeSlashCommands();
-
-    const poster = new dbots.Poster({
-        client: client,
-        apiKeys: {
-            topgg: process.env.TOPGG_TOKEN
-        },
-        clientLibrary: "eris",
-    });
-
-    poster.startInterval();
-
     client.editStatus("online",{
         name: games[Math.random() * games.length],
         type: Eris.Constants.ActivityTypes.GAME
