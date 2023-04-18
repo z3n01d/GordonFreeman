@@ -11,7 +11,7 @@ export async function execute(interaction: Eris.Interaction) {
     
     try {
         var rankCard = new canvacord.Rank()
-            .setAvatar(interaction.member.user.avatar || interaction.member.user.defaultAvatar)
+            .setAvatar(interaction.member.user.dynamicAvatarURL("png"))
             .setCurrentXP(userData.xp)
             .setRequiredXP(userData.level * 10)
             .setProgressBar("#ffad00", "COLOR")
