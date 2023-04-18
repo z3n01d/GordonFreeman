@@ -10,14 +10,14 @@ export async function execute(interaction: Eris.Interaction) {
     const userData = getUserData(interaction.member.id);
     
     try {
-        var rankCard = new canvacord.Rank();
-        rankCard.setAvatar(interaction.member.user.avatar || interaction.member.user.defaultAvatar);
-        rankCard.setCurrentXP(userData.xp);
-        rankCard.setRequiredXP(userData.level * 10);
-        rankCard.setProgressBar("#ffad00", "COLOR");
-        rankCard.setUsername(interaction.member.username);
-        rankCard.setDiscriminator(interaction.member.user.discriminator);
-        rankCard.setBackground("IMAGE","https://cdn.discordapp.com/attachments/1096754012302364693/1096778705453461574/server_banner.png");
+        var rankCard = new canvacord.Rank()
+            .setAvatar(interaction.member.user.avatar || interaction.member.user.defaultAvatar)
+            .setCurrentXP(userData.xp)
+            .setRequiredXP(userData.level * 10)
+            .setProgressBar("#ffad00", "COLOR")
+            .setUsername(interaction.member.username)
+            .setDiscriminator(interaction.member.user.discriminator)
+            .setBackground("IMAGE","https://i.imgur.com/NTWrNUt.png")
         let data = await rankCard.build();
         return interaction.createMessage("",{
             file: data,
