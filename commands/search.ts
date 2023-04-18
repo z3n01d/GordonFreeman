@@ -68,6 +68,7 @@ export async function execute(interaction: Eris.Interaction) {
             });
         }
         userData.searchTime = Date.now();
+        setUserData(interaction.member.id,userData);
         var placesClone = Object.keys(places);
         var place1 = placesClone[Math.floor(Math.random() * placesClone.length)];
         placesClone.splice(placesClone.indexOf(place1),1);
