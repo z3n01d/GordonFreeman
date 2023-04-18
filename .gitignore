@@ -1,5 +1,7 @@
 ## Other ignores
 README.md
+userdata.json
+guilddata.json
 ## NodeJs based ignores
 # Logs
 logs
