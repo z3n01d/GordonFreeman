@@ -141,7 +141,9 @@ client.on("ready",() => {
             topgg: process.env.TOPGG_TOKEN
         },
         clientLibrary: "eris",
-    })
+    });
+
+    poster.startInterval();
 
     client.editStatus("online",{
         name: games[Math.random() * games.length],
