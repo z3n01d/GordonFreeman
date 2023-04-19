@@ -7,7 +7,7 @@ export const options = [];
 export async function execute(interaction: Eris.Interaction) {
     if (!(interaction instanceof Eris.CommandInteraction)) return;
     var userData = getUserData(interaction.member.id);
-    if ((86400000 - (Date.now() - userData.dailyTime) > 0 || userData.voted === false)) {
+    if (userData.voted === false || (86400000 - (Date.now() - userData.dailyTime) > 0)) {
         const timeLeft = 86400000 - (Date.now() - userData.dailyTime);
         return interaction.createMessage({
             embeds: [
@@ -17,7 +17,7 @@ export async function execute(interaction: Eris.Interaction) {
                 }
             ]
         });
-    } else if ((86400000 - (Date.now() - userData.dailyTime) <= 0) || userData.voted === true) {
+    } else if (userData.voted === true || (86400000 - (Date.now() - userData.dailyTime) <= 0)) {
         const reward = randomRange(10,500);
         userData.money += reward;
         userData.dailyTime = Date.now();
