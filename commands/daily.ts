@@ -17,7 +17,7 @@ export async function execute(interaction: Eris.Interaction) {
                 }
             ]
         });
-    } else if ((86400000 - (Date.now() - userData.dailyTime) <= 0) || userData.voted) {
+    } else if ((86400000 - (Date.now() - userData.dailyTime) <= 0) || userData.voted === true) {
         const reward = randomRange(10,500);
         userData.money += reward;
         userData.dailyTime = Date.now();
