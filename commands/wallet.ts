@@ -7,7 +7,7 @@ export const options = [];
 export async function execute(interaction: Eris.Interaction) {
     if (!(interaction instanceof Eris.CommandInteraction)) return;
     const userData = getUserData(interaction.member.id);
-    return interaction.createMessage({
+    interaction.createMessage({
         embeds: [
             {
                 title: "Wallet",

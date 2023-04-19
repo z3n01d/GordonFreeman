@@ -43,5 +43,5 @@ export async function execute(interaction: Eris.Interaction) {
         embed.image = null;
     }
 
-    return interaction.createMessage({embeds:[embed]});
+    interaction.createMessage({embeds:[embed]});
 }

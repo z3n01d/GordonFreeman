@@ -19,13 +19,13 @@ export async function execute(interaction: Eris.Interaction) {
             .setDiscriminator(interaction.member.user.discriminator)
             .setBackground("IMAGE","https://i.imgur.com/NTWrNUt.png")
         let data = await rankCard.build();
-        return interaction.createMessage("",{
+        interaction.createMessage("",{
             file: data,
             name: "rankcard.png"
         });
     } catch (error) {
         console.log(error);
-        return interaction.createMessage({
+        interaction.createMessage({
             embeds: [
                 {
                     title: `${interaction.member.username}'s level status`,

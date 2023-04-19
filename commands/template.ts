@@ -7,5 +7,5 @@ export const description: string = "description";
 export const options = [];
 export async function execute(interaction: Eris.Interaction) {
     if (!(interaction instanceof Eris.CommandInteraction)) return;
-    return interaction.createMessage("")
+    interaction.createMessage("");
 }

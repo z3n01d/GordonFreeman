@@ -51,8 +51,8 @@ export async function execute(interaction: Eris.Interaction) {
             setGuildData(interaction.guildID,guildData);
         } catch (error) {
             console.log(error);
-            return interaction.createMessage(`Failed to update setting ${setting} to ${newValue}`);
+            interaction.createMessage(`Failed to update setting ${setting} to ${newValue}`);
         }
-        return interaction.createMessage(`Successfully updated setting ${setting} to ${newValue}`);
+        interaction.createMessage(`Successfully updated setting ${setting} to ${newValue}`);
     }
 }

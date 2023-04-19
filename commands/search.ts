@@ -75,7 +75,7 @@ export async function execute(interaction: Eris.Interaction) {
         var place2 = placesClone[Math.floor(Math.random() * placesClone.length)];
         placesClone.splice(placesClone.indexOf(place2),1);
         var place3 = placesClone[Math.floor(Math.random() * placesClone.length)];
-        return interaction.createMessage({
+        interaction.createMessage({
             embeds: [
                 {
                     title: "Where do you want to search?",
@@ -133,7 +133,7 @@ export async function execute(interaction: Eris.Interaction) {
             embed.description = pickedPlaceData.failMessage;
         }
         setUserData(interaction.member.id,userData);
-        return interaction.editParent({
+        interaction.editParent({
             embeds: [embed],
             components: []
         });

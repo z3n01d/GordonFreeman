@@ -13,7 +13,7 @@ export async function execute(interaction: Eris.Interaction) {
         userData.dailyTime = Date.now();
         userData.voted = false;
         setUserData(interaction.member.id,userData);
-        return interaction.createMessage({
+        interaction.createMessage({
             embeds: [
                 {
                     title: `You have claimed your daily award of $${reward.toString()}.`,
@@ -23,7 +23,7 @@ export async function execute(interaction: Eris.Interaction) {
         });
     } else {
         const timeLeft = 86400000 - (Date.now() - userData.dailyTime);
-        return interaction.createMessage({
+        interaction.createMessage({
             embeds: [
                 {
                     title: `You have already claimed your daily award, try again later after **${Math.round((timeLeft / 3600000) % 24)} hours**.`,

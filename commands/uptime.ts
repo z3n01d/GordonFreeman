@@ -6,7 +6,7 @@ export const description: string = "Check bot's uptime";
 export const options = [];
 export async function execute(interaction: Eris.Interaction) {
     if (!(interaction instanceof Eris.CommandInteraction)) return;
-    return interaction.createMessage({
+    interaction.createMessage({
         embeds: [
             {
                 title: "Bot uptime",

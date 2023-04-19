@@ -202,8 +202,8 @@ client.on("interactionCreate",async (interaction: Eris.Interaction) => {
         setupUsersData(interaction.member.id);
         try {
             const command = commands[interaction.data.name];
-            await interaction.acknowledge();
-            return command.execute(interaction);
+            interaction.defer();
+            command.execute(interaction);
         } catch (error) {
             console.log(error);
         }
@@ -213,7 +213,7 @@ client.on("interactionCreate",async (interaction: Eris.Interaction) => {
             typeof(interaction.message.interaction) === "undefined"
         ) return;
         const command = commands[interaction.message.interaction.name];
-        return command.execute(interaction);
+        command.execute(interaction);
     }
 })
 
