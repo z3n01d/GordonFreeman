@@ -202,7 +202,6 @@ client.on("interactionCreate",async (interaction: Eris.Interaction) => {
         setupUsersData(interaction.member.id);
         try {
             const command = commands[interaction.data.name];
-            interaction.defer();
             command.execute(interaction);
         } catch (error) {
             console.log(error);
