@@ -230,6 +230,15 @@ app.post("/dblwebhook",topggWebhook.listener((vote) => {
     if (typeof(vote.user) === "undefined") return;
     var userData = getUserData(vote.user);
     userData.voted = true;
+    try {
+        client.getRESTUser(vote.user).then((user) => {
+            client.executeWebhook(process.env.WEBHOOK_ID,process.env.WEBHOOK_TOKEN,{
+                content: `${user.username} has voted for Gordon Freeman.`
+            });
+        });
+    } catch (error) {
+        console.log(error);
+    }
     setUserData(vote.user,userData);
 }))
 
