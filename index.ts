@@ -202,6 +202,7 @@ client.on("interactionCreate",async (interaction: Eris.Interaction) => {
         setupUsersData(interaction.member.id);
         try {
             const command = commands[interaction.data.name];
+            await interaction.acknowledge();
             command.execute(interaction);
         } catch (error) {
             console.log(error);
