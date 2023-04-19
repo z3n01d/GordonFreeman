@@ -5,7 +5,8 @@
         "dailyTime": 1681826197532,
         "level": 8,
         "xp": 59,
-        "searchTime": 1681840166935
+        "searchTime": 1681840166935,
+        "voted": true
     },
     "966107560530837525": {
         "inventory": [],
@@ -195,6 +196,7 @@
         "money": 0,
         "dailyTime": 1681910905354,
         "level": 1,
-        "xp": 1
+        "xp": 1,
+        "voted": false
     }
 }

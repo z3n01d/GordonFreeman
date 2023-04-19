@@ -5,6 +5,7 @@ import Express from "express";
 import fs from "fs";
 import path from "path";
 import { AutoPoster } from "topgg-autoposter";
+import * as topgg from "@top-gg/sdk";
 
 type UserData = {
     inventory: string[];
@@ -13,6 +14,7 @@ type UserData = {
     searchTime: number;
     level: number;
     xp: number;
+    voted: boolean;
 }
 
 type GuildSettings = {
@@ -32,6 +34,9 @@ export const client: Eris.Client = new Eris.Client(`Bot ${process.env.BOT_TOKEN}
     intents: [Eris.Constants.Intents.all],
     restMode: true
 });
+
+const topggWebhook = new topgg.Webhook("halflife3");
+export const topggAPI = new topgg.Api(process.env.TOPGG_TOKEN);
 
 const poster = AutoPoster(process.env.TOPGG_TOKEN,client);
 
@@ -67,7 +72,7 @@ export function setGuildData(guildId: string,newGuildData) {
     fs.writeFileSync("guilddata.json",JSON.stringify(data,null,4));
 }
 
-function setupUsersData(userId: string) {
+async function setupUsersData(userId: string) {
     var userData = getUserData(userId);
     if (userData == null) {
         setUserData(userId,{
@@ -75,7 +80,8 @@ function setupUsersData(userId: string) {
             money: 0,
             dailyTime: Date.now(),
             level: 1,
-            xp: 0
+            xp: 0,
+            voted: await topggAPI.hasVoted(userId)
         });
     } else {
         if (typeof(userData.inventory) === "undefined") {
@@ -92,6 +98,9 @@ function setupUsersData(userId: string) {
         }
         if (typeof(userData.xp) === "undefined") {
             userData.xp = 0;
+        }
+        if (typeof(userData.voted) === "undefined") {
+            userData.voted = await topggAPI.hasVoted(userId);
         }
         setUserData(userId,userData);
     }
@@ -215,6 +224,14 @@ poster.on("posted",(stats) => {
 app.get("/",(req,res) => {
     res.send("Bot is ready to serve.");
 })
+
+app.post("/dblwebhook",topggWebhook.listener((vote) => {
+    console.log(`${vote.user} has voted.`);
+    if (typeof(vote.user) === "undefined") return;
+    var userData = getUserData(vote.user);
+    userData.voted = true;
+    setUserData(vote.user,userData);
+}))
 
 app.listen(port,() => {
     console.log(`Listening on port ${port.toString()}`);
