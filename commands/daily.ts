@@ -7,7 +7,7 @@ export const options = [];
 export async function execute(interaction: Eris.Interaction) {
     if (!(interaction instanceof Eris.CommandInteraction)) return;
     var userData = getUserData(interaction.member.id);
-    if (86400000 - (Date.now() - userData.dailyTime) > 0) {
+    if ((86400000 - (Date.now() - userData.dailyTime) > 0 || userData.voted === false)) {
         const timeLeft = 86400000 - (Date.now() - userData.dailyTime);
         return interaction.createMessage({
             embeds: [
