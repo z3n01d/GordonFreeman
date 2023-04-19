@@ -200,9 +200,9 @@ client.on("interactionCreate",async (interaction: Eris.Interaction) => {
         if (!interaction.member) return interaction.createMessage("You can only use this command in a guild!");
         setupGuildsData(interaction.guildID);
         setupUsersData(interaction.member.id);
-        const command = commands[interaction.data.name];
-        await interaction.acknowledge();
         try {
+            const command = commands[interaction.data.name];
+            await interaction.acknowledge();
             return command.execute(interaction);
         } catch (error) {
             console.log(error);
