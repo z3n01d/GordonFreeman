@@ -2,6 +2,8 @@
 README.md
 userdata.json
 guilddata.json
+.replit
+replit.nix
 ## NodeJs based ignores
 # Logs
 logs
