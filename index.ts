@@ -232,7 +232,6 @@ app.post("/dblwebhook",topggWebhook.listener((vote) => {
     userData.voted = true;
     try {
         client.getRESTUser(vote.user).then((user) => {
-            console.log(process.env);
             client.executeWebhook(process.env.WEBHOOK_ID,process.env.WEBHOOK_TOKEN,{
                 content: `${user.username} has voted for Gordon Freeman.`
             });
