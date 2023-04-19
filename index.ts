@@ -163,36 +163,40 @@ client.on("error",(err) => {
 
 client.on("messageCreate",async (message) => {
     if (message.author.bot) return;
-    setupGuildsData(message.guildID);
-    setupUsersData(message.author.id);
-    var userData = getUserData(message.author.id);
-    userData.xp += 1;
-    if (userData.xp >= userData.level * 10) {
-        userData.level += 1;
-        let messageData = {
-            content: `${message.author.mention} has reached **level ${userData.level.toString()}**!`,
-        }
-        const guildData = getGuildData(message.guildID);
-        var channel = await new Promise(async (resolve,reject) => {
-            if (guildData != null && guildData.settings.levelChannelId != null) {
-                try {
-                    let newChannel = await client.getRESTChannel(guildData.settings.levelChannelId);
-                    resolve(newChannel);
-                } catch (error) {
-                    console.log(error);
+    try {
+        setupGuildsData(message.guildID);
+        setupUsersData(message.author.id);
+        var userData = getUserData(message.author.id);
+        userData.xp += 1;
+        if (userData.xp >= userData.level * 10) {
+            userData.level += 1;
+            let messageData = {
+                content: `${message.author.mention} has reached **level ${userData.level.toString()}**!`,
+            }
+            const guildData = getGuildData(message.guildID);
+            var channel = await new Promise(async (resolve,reject) => {
+                if (guildData != null && guildData.settings.levelChannelId != null) {
+                    try {
+                        let newChannel = await client.getRESTChannel(guildData.settings.levelChannelId);
+                        resolve(newChannel);
+                    } catch (error) {
+                        console.log(error);
+                        resolve(message.channel);
+                    }
+                } else {
                     resolve(message.channel);
                 }
-            } else {
-                resolve(message.channel);
-            }
-        });
+            });
 
-        if (channel instanceof Eris.TextChannel) {
-            channel.createMessage(messageData);
+            if (channel instanceof Eris.TextChannel) {
+                channel.createMessage(messageData);
+            }
+            userData.xp = 0;
         }
-        userData.xp = 0;
+        setUserData(message.author.id,userData);
+    } catch (error) {
+        console.log(error);
     }
-    setUserData(message.author.id,userData);
 })
 
 client.on("interactionCreate",async (interaction: Eris.Interaction) => {
