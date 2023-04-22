@@ -8,12 +8,13 @@ export const options = [];
 export async function execute(interaction: Eris.Interaction) {
     if (!(interaction instanceof Eris.CommandInteraction)) return;
     const userData = getUserData(interaction.member.id);
-    
     try {
         var rankCard = new canvacord.Rank()
             .setAvatar(interaction.member.user.dynamicAvatarURL("png"))
             .setCurrentXP(userData.xp)
             .setRequiredXP(userData.level * 10)
+            .setLevel(userData.level)
+            .setRank(1,"RANK",false)
             .setProgressBar("#ffad00", "COLOR")
             .setUsername(interaction.member.username)
             .setDiscriminator(interaction.member.user.discriminator)
