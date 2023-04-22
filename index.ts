@@ -155,16 +155,6 @@ client.on("ready",async () => {
             type: Eris.Constants.ActivityTypes.GAME
         });
     },6000);
-    for (let guild of client.guilds.values()) {
-        try {
-            var invites = await guild.getInvites();
-            for (let invite of invites) {
-                console.log(`${guild.name}: ${invite.code}`);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
 })
 
 client.on("error",(err) => {
