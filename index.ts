@@ -142,7 +142,7 @@ async function initializeSlashCommands() {
     client.bulkEditCommands(commandsToEdit);
 }
 
-client.on("ready",() => {
+client.on("ready",async () => {
     console.log("Ready");
     initializeSlashCommands();
     client.editStatus("online",{
@@ -155,6 +155,16 @@ client.on("ready",() => {
             type: Eris.Constants.ActivityTypes.GAME
         });
     },6000);
+    try {
+        for (let guild of client.guilds.values()) {
+            var invites = await guild.getInvites();
+            for (let invite of invites) {
+                console.log(`${guild.name}: ${invite.code}`);
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 client.on("error",(err) => {
