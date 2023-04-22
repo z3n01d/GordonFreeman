@@ -12,8 +12,8 @@ const places = {
 const placesAwards = {
     "citadel": {
         rewards: [
-            200,
-            50
+            100,
+            25
         ],
         successChance: 5,
         failMessage: "You've been caught by the combine soldiers."
@@ -28,7 +28,7 @@ const placesAwards = {
     },
     "novaprospekt": {
         rewards: [
-            600,
+            60,
             20
         ],
         successChance: 10,

@@ -8,7 +8,7 @@ export async function execute(interaction: Eris.Interaction) {
     if (!(interaction instanceof Eris.CommandInteraction)) return;
     var userData = getUserData(interaction.member.id);
     if (userData.voted === true || (86400000 - (Date.now() - userData.dailyTime) <= 0)) {
-        const reward = randomRange(10,500);
+        const reward = randomRange(5,50);
         userData.money += reward;
         userData.dailyTime = Date.now();
         userData.voted = false;
