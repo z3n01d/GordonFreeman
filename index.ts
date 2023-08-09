@@ -246,8 +246,8 @@ app.post("/dblwebhook",topggWebhook.listener((vote) => {
     setUserData(vote.user,userData);
 }))
 
-app.listen(port,() => {
-    console.log(`Listening on port ${port.toString()}`);
+app.listen(process.env.PORT,() => {
+    console.log(`Listening on port ${process.env.PORT.toString()}`);
 })
 
 client.connect();
